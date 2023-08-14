@@ -1,0 +1,13 @@
+*,
+*::after,
+*::before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    text-align: center;
+}
+
+/* side note: always create a branch from a branch */
+/* like create a backend brnach and from backend branch create another branch and specify the file you are working on */
