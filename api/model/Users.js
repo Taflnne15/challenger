@@ -1,7 +1,7 @@
 const db = require ("../config")
 // This will have all the functionality
 const {hash, compare, hashSync} = require ('bcrypt')
-const {createToken} = require('../middleware/authenticateUser')
+// const {createToken} = require('../middleware/authenticateUser')
 class Users{
     fetchUsers(req, res){
         const query =`
@@ -34,8 +34,54 @@ class Users{
             } )
     }
     login(req,res){
-        const query = ``
+       const {emailAdd, userPass} = req.body;
+
+       const query =`
+       SELECT firstName, lastName, gender, userDOB, emailAdd, userPass, profileUrl
+       FROM Users 
+       WHERE emailAdd = '${emailAdd}';
+       `
+       db.query(query , async (err , results)=>{
+if (err) throw err;
+if (!results?.length) {
+    res.json({
+        status: res.statusCode,
+        msg: "You Provided a wrong email",
+    });
+} else {
+compare(userPass, results[0].userPass, (cErr, cResult)=>{
+    if (cErr) throw cErr;
+    //create token
+    const token = createToken({
+        emailAdd,
+        httpOnly
+    });
+    //save token
+    res.cookie("LegitUser", token ,{
+        maxAge: 3600000,
+        httpOnly: true
+    });
+    if(cResult){
+        res.json({
+            msg: "Logged In",
+            token,
+            result: results[0]
+        });
+    } else {
+        res.json({
+            status: res.statusCode,
+            msg: "Invalid Password or you have not registered"
+        });
     }
+});
+
+
+}
+});
+
+}
+
+
    async register(req,res){
         const data = req.body
         // Encrypt password
