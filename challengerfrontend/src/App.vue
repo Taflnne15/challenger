@@ -1,9 +1,7 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+<NavBar/>
+<router-view/>
+<FooterVue/>
 </template>
 
 <style>
@@ -28,3 +26,23 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 </style>
+<script>
+import NavBar from '@/components/NavBar.vue';
+import FooterVue from './components/FooterVue.vue';
+
+export default{
+  components :{
+    NavBar,
+FooterVue
+  }
+
+}
+
+
+
+
+
+
+
+
+</script>
