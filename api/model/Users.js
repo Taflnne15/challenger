@@ -78,10 +78,7 @@ compare(userPass, results[0].userPass, (cErr, cResult)=>{
 
 }
 });
-
 }
-
-
    async register(req,res){
         const data = req.body
         // Encrypt password
@@ -109,6 +106,7 @@ compare(userPass, results[0].userPass, (cErr, cResult)=>{
             });
             res.json ({
                 status: res.statusCode,
+                token,
                 msg: "You are now registered"
             })
         })
